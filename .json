@@ -1,0 +1,27 @@
+{
+    "nome" : "Carlos Fabiano",
+    "telefone" : ["(31) 99439-2592", "(31) 99232-5533"],
+    "email" : "carlosmoreiraaraujo18@gamil.com",
+    "endereço" : {
+        "logradouro" : "rua fued mansur kfuri ", 
+        "CEP" : "31985-250",
+        "numero": "245",
+        "complemento" : "bloco 7 apto 104", 
+        "bairro" : "Don Silverio", 
+        "cidade" : "Belo horizonte" 
+    } 
+}
+
+{
+    "filial" : "Empresa 01",
+    "CNPJ":"65.150.401/0001-73",
+    "endereço" : {
+        "logradouro" : "rua fued mansur kfuri ", 
+        "CEP" : "31985-250",
+        "numero": "245",
+        "complemento" : "bloco 7 apto 104", 
+        "bairro" : "Don Silverio", 
+        "cidade" : "Belo Horizonte" 
+    } 
+}
+
