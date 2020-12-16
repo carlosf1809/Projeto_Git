@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {FormEvent, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi'
 
 import api from '../../services/api'
@@ -8,14 +8,32 @@ import Repository from '../Repository';
 import {Title, Form, Repositories} from './styles'
 import { strict } from 'assert';
 
+interface Respository{
+    full_name: string;
+    description:string;
+    owner:{
+        login:string;
+        avatar_url:string;
+    };
+
+}
+
 const Dashboard: React.FC = () => {
     const [newRepo, setNewRepo] = useState('');
-    const [repositories, setRepositories] = useState([]);
+    const [repositories, setRepositories] = useState<Respository[]>([]);
 
-    function handleAddRepository() {
-        //adiçao api github
-        //Consumir api github
-        //salvar novo respository
+    async function handleAddRepository(event: FormEvent<HTMLFormElement>,):Promise <void> {
+        event.preventDefault();
+
+        const response = await api.get<Respository>(`/repos/${newRepo}`);
+        
+        console.log(response.data);
+
+        const repository = response.data;
+
+        setRepositories([...repositories, repository])
+        setNewRepo('');
+        
     }
  
     return (
@@ -25,26 +43,32 @@ const Dashboard: React.FC = () => {
                 Explore repositório no github
             </Title>
 
-            <Form action="">
-                <input value={newRepo} onChange={(e)=> setNewRepo(e.target.value)} placeholder="Digite o nome do repositorio"/>
+            <Form onSubmit={handleAddRepository}>
+                <input value={newRepo} 
+                onChange={(e)=> setNewRepo(e.target.value)} 
+                placeholder="Digite o nome do repositorio"/>
+
                 <button type="submit"> Pesquisar </button>
             </Form>
 
             <Repositories>
-                <a href="#">
+            {repositories.map(Repository => (
+                
+                    <a key={Repository.full_name} href="#">
                     <img 
-                    src="https://avatars0.githubusercontent.com/u/55306148?s=460&u=3ab72f350c5182e18c3e0a87167d479186d539e4&v=4" 
-                    alt="Carlos Fabiano"/>
+                    src= {Repository.owner.avatar_url}
+                    alt={Repository.owner.login}/>
 
                     <div>
-                        <strong>project_git</strong>
-                        <p>teste teste</p>
+                        <strong>{Repository.full_name}</strong>
+                        <p>{Repository.description}</p>
                     </div>
 
                     <FiChevronRight size={20}/>
                 </a>
 
                 
+            ))}
             </Repositories>
         </>
     )
